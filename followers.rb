@@ -62,6 +62,22 @@ class QuestionFollower
     nil
   end
 
+  def self.most_followed_questions(n)
+    query = <<-SQL
+    SELECT
+      question_id, COUNT(user_id)
+    FROM
+      question_followers
+    GROUP BY question_id
+    ORDER BY COUNT(user_id) DESC limit ?
+    SQL
+
+    results = QuestionsDatabase.instance.execute(query, n)
+
+    # Return an array of Question objects
+    return results.map { |question| Question.find_by_id(question['question_id']) } unless results.empty?
+    nil
+  end
 
   attr_reader :id, :question_id, :user_id
 

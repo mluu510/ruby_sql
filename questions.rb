@@ -1,8 +1,8 @@
+load './questiondb.rb'
+load './likers.rb'
+load './user.rb'
+load './question.rb'
+load './reply.rb'
+load './followers.rb'
 
-require_relative 'questiondb'
-require_relative 'user'
-require_relative 'question'
-require_relative 'reply'
-require_relative 'followers'
-require_relative 'likers'
 
