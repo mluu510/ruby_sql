@@ -1,3 +1,4 @@
+load './sqlobject.rb'
 load './questiondb.rb'
 load './likers.rb'
 load './user.rb'

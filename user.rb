@@ -1,4 +1,4 @@
-class User
+class User < SQLObject
   def self.all
     query = <<-SQL
     SELECT
@@ -50,28 +50,8 @@ class User
     @lname = options['lname']
   end
 
-  def save
-    if self.id.nil?
-      # puts "Creating a new row"
-      # Create a new row
-      query = <<-SQL
-    INSERT INTO users(fname, lname)
-  VALUES (:fname, :lname)
-      SQL
-
-      QuestionsDatabase.instance.execute(query, {:fname => self.fname, :lname => self.lname})
-      @id = QuestionsDatabase.instance.last_insert_row_id
-    else
-      # puts "Updating row: #{self.id}"
-      # Update row
-      query = <<-SQL
-      UPDATE users
-      SET fname = :fname, lname = :lname
-  WHERE id = :id
-      SQL
-
-      QuestionsDatabase.instance.execute(query, {:fname => self.fname, :lname => self.lname, :id => self.id})
-    end
+  def sql_columns
+    [:fname, :lname]
   end
 
   def authored_questions
@@ -128,5 +108,7 @@ class User
 
 
   end
+
+
 
 end

@@ -1,6 +1,6 @@
 
 
-class QuestionFollower
+class QuestionFollower < SQLObject
   def self.all
     query = <<-SQL
     SELECT

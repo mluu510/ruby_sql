@@ -1,4 +1,4 @@
-class QuestionLike
+class QuestionLike < SQLObject
   def self.all
     query = <<-SQL
     SELECT

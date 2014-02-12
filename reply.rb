@@ -1,5 +1,5 @@
 
-class Reply
+class Reply < SQLObject
   def self.all
     query = <<-SQL
     SELECT
@@ -58,7 +58,8 @@ class Reply
     nil
   end
 
-  attr_reader :id, :question_id, :reply_id, :user_id, :body
+  attr_accessor :question_id, :reply_id, :user_id, :body
+  attr_reader :id
 
 
   def initialize(options = {})
@@ -67,6 +68,10 @@ class Reply
                                                                       'reply_id',
                                                                       'user_id',
                                                                       'body')
+  end
+
+  def sql_columns
+    [:question_id, :reply_id, :user_id, :body]
   end
 
   def create
@@ -88,6 +93,10 @@ class Reply
 
   def child_replies
     Reply.children(self.id)
+  end
+
+  def pluralize
+    'replies'
   end
 
 end
