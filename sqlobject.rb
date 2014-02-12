@@ -13,7 +13,7 @@ class SQLObject
       # Create a new row
       query = <<-SQL
       INSERT INTO #{self.pluralize}(#{self.sql_columns.map { |column| column.to_s }.join(', ')})
-      VALUES (#{self.sql_columns.map { |column| ':'+column.to_s }.join(', ')})
+      VALUES (#{self.sql_columns.map { |column| ":#{column.to_s}" }.join(', ')})
       SQL
 
       QuestionsDatabase.instance.execute(query, options)
