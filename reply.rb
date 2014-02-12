@@ -95,7 +95,7 @@ class Reply < SQLObject
     Reply.children(self.id)
   end
 
-  def pluralize
+  def self.pluralize
     'replies'
   end
 

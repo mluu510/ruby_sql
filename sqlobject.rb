@@ -33,7 +33,32 @@ class SQLObject
 
   end
 
-  def pluralize
-    self.class.to_s.downcase + 's'
+  def self.find(options)
+    query = <<-SQL
+    SELECT
+    *
+    FROM #{pluralize}
+    WHERE  #{options_hash_to_sql_conditions(options)}
+    SQL
+    results = QuestionsDatabase.instance.execute(query)
+    return  results.map { |result| self.new(result) } unless results.empty?
+    nil
+  end
+
+  def options_hash_to_sql_conditions(options)
+    options.map do |column, value|
+      if value.is_a?(Array)
+        value.map do |value2|
+           "#{column} = #{value2.inspect}"
+        end.join(" OR ")
+      else
+        "#{column} = #{value.inspect}"
+      end
+    end.join(" AND ")
+  end
+
+
+  def self.pluralize
+    self.to_s.downcase + 's'
   end
 end
